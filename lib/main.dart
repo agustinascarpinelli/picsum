@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:picsum/bloc/pics/pics_bloc.dart';
 import 'package:picsum/screens/screens.dart';
@@ -7,7 +8,13 @@ import 'package:provider/provider.dart';
 
 import 'bloc/app/app_bloc.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await FlutterDownloader.initialize();
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

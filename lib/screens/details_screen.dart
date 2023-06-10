@@ -76,21 +76,21 @@ class _Details extends StatelessWidget {
             ],
           ),
         ),
-        _RowDetail(
+        RowDetail(
             title: 'Height: ',
             subtitle: pic.height.toString(),
             color: isThemeLight ? colorDark : colorLight),
         const SizedBox(
           height: 50,
         ),
-        _RowDetail(
+        RowDetail(
             title: 'Width: ',
             subtitle: pic.width.toString(),
             color: isThemeLight ? colorDark : colorLight),
         const SizedBox(
           height: 50,
         ),
-        _RowDetail(
+        RowDetail(
             title: 'Url: ',
             subtitle: pic.url!,
             icon: true,
@@ -101,8 +101,10 @@ class _Details extends StatelessWidget {
         ),
         Container(
             margin: const EdgeInsets.only(bottom: 50),
-            child: _RowDetail(
+            child: RowDetail(
                 title: 'Download url: ',
+                downloadPic: true,
+                downloadPicUrl: pic.downloadUrl!,
                 subtitle: pic.downloadUrl!,
                 color: isThemeLight ? colorDark : colorLight))
       ],
@@ -110,54 +112,3 @@ class _Details extends StatelessWidget {
   }
 }
 
-class _RowDetail extends StatelessWidget {
-  const _RowDetail({
-    super.key,
-    required this.title,
-    required this.subtitle,
-    required this.color,
-    this.icon = false, this.url,
-  });
-
-  final String title;
-  final String subtitle;
-  final Color color;
-  final bool? icon;
-  final String? url;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        margin: const EdgeInsets.only(top: 20),
-        child: Row(
-          mainAxisAlignment: icon==true ? MainAxisAlignment.spaceBetween: MainAxisAlignment.start,
-          children: [
-            Expanded(
-                child: Text(
-              title,
-              style: TextStyle(
-                  fontSize: 15, fontWeight: FontWeight.bold, color: color),
-            )),
-            Expanded(
-                child: Text(subtitle,
-                    style: TextStyle(fontSize: 15, color: color))),
-            if (icon == true)
-              IconButton(
-                icon: const Icon(Icons.open_in_new),
-                onPressed: () async {
-              final uri = Uri.parse(url!);
-              if (await canLaunchUrl(uri)) {
-                await launchUrl(uri);
-              } else {
-                AlertDialog(title: Text('No se pudo abrir el enlace $url'));
-              }
-                },
-              )
-          ],
-        ),
-      ),
-    );
-  }
-}
