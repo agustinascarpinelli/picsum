@@ -68,15 +68,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final appState = BlocProvider.of<AppBloc>(context);
+    const Color colorLight = Color(0xFFA9D6E5);
+    const Color colorDark = Color(0xFF012A4A);
     final size = MediaQuery.of(context).size;
-    return BlocBuilder<AppBloc, AppState>(builder: (context, state) {
+
+    return BlocBuilder<AppBloc, AppState>(builder: (context, appState) {
       return Scaffold(
         appBar: AppBar(
           title: const Text('PICSUM'),
-          backgroundColor: appState.state.isThemeLight
-              ? const Color(0xFFA9D6E5)
-              : const Color(0xFF012A4A),
+          backgroundColor: appState.isThemeLight ? colorLight : colorDark,
           centerTitle: true,
         ),
         drawer: const CustomDrawer(),
@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             const Background(),
             RefreshIndicator(
-              color: const Color(0xFFA9D6E5),
+              color: colorLight,
               onRefresh: onRefresh,
               child: BlocBuilder<PicsBloc, PicsState>(
                 builder: (context, state) {
@@ -103,12 +103,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         final pic = state.pics[index];
                         return GestureDetector(
                           onTap: () {
-                           Navigator.pushNamed(context, 'details',
-                        arguments: pic);
+                            Navigator.pushNamed(context, 'details',
+                                arguments: pic);
                           },
                           child: Hero(
-                            tag: pic.id!,
-                            child: _picsContainer(appState, context, index, pic)),
+                              tag: pic.id!,
+                              child: _picsContainer(
+                                  appState, context, index, pic)),
                         );
                       },
                     );
@@ -131,19 +132,16 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 Container _picsContainer(
-    AppBloc appState, BuildContext context, int index, ListPicResponse pic) {
+    AppState appState, BuildContext context, int index, ListPicResponse pic) {
+  const Color colorDark = Color(0xFF2A6F97);
+  const Color colorLight = Color(0xFFA9D6E5);
   return Container(
     margin: const EdgeInsets.all(10),
     decoration: BoxDecoration(
       border: Border.all(
-          color: appState.state.isThemeLight
-              ? const Color(0xFF2A6F97)
-              : const Color(0xFFA9D6E5),
-          width: 2),
+          color: appState.isThemeLight ? colorDark : colorLight, width: 2),
       borderRadius: BorderRadius.circular(20),
-      color: appState.state.isThemeLight
-          ? const Color(0xFF90E0EF)
-          : const Color(0xFF023E8A),
+      color: appState.isThemeLight ? colorLight : colorDark,
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(0.2),
@@ -175,9 +173,7 @@ Container _picsContainer(
               child: Text(
                 pic.author ?? 'Undefined author',
                 style: TextStyle(
-                  color: appState.state.isThemeLight
-                      ? const Color(0xFF012A4A)
-                      : const Color(0xFFA9D6E5),
+                  color: appState.isThemeLight ? colorDark : colorLight,
                   fontSize: 16,
                 ),
               ),

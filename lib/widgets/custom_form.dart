@@ -34,6 +34,7 @@ class _CustomFormState extends State<CustomForm> {
         child: Column(
           children: [
             TextFormField(
+              style: const TextStyle(color:  Color(0xFF013A63)),
               controller: usernameController,
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
@@ -54,6 +55,7 @@ class _CustomFormState extends State<CustomForm> {
               height: 30,
             ),
             TextFormField(
+              style: const TextStyle(color:  Color(0xFF013A63)),
               controller: passwordController,
               obscureText: true,
               autocorrect: false,

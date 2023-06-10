@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:picsum/bloc/app/app_bloc.dart';
 
 class Background extends StatelessWidget {
-  const Background({Key? key}) : super(key: key);
+  final bool? logo;
+  const Background({Key? key, this.logo = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +15,15 @@ class Background extends StatelessWidget {
             Container(
               decoration: boxDecoration(state.isThemeLight),
             ),
-            Positioned(
-              left: -200,
-              top: -335,
-              child: Transform.scale(
-                scale: 0.4,
-                child: Image.asset('assets/images/logo.png'),
+            if (logo == true)
+              Positioned(
+                left: -200,
+                top: -335,
+                child: Transform.scale(
+                  scale: 0.4,
+                  child: Image.asset('assets/images/logo.png'),
+                ),
               ),
-            ),
           ],
         );
       },

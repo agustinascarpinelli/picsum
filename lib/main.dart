@@ -21,15 +21,17 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          textTheme: GoogleFonts.notoSansTextTheme(const TextTheme()),
+        theme: ThemeData().copyWith(
+          textTheme: GoogleFonts.aBeeZeeTextTheme(
+              const TextTheme() // Establecer cualquier estilo de texto adicional aquí
+              ),
         ),
         initialRoute: 'login',
         routes: {
-          'ex': (_) => const HomeScreen(),
           'login': (_) => const LoginScreen(),
           'home': (_) => const HomeScreen(),
-          'details': (_) => const DetailsScreen()
+          'details': (_) => const DetailsScreen(),
+          'zoom': (_) => const ZoomableScreen()
         },
       ),
     );
