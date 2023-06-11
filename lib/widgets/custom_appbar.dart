@@ -37,7 +37,13 @@ class CustomAppBar extends StatelessWidget {
                 tag: pic.id!,
                 child: FadeInImage(
                   placeholder: const AssetImage('assets/images/loading.gif'),
-                  image: NetworkImage(pic.downloadUrl!),
+                  image: pic.downloadUrl != null
+                      ? NetworkImage(pic.downloadUrl!)
+                      : const AssetImage('assets/images/notfound.png')
+                          as ImageProvider<Object>,
+                  imageErrorBuilder: (context, error, stackTrace) {
+                    return Image.asset('assets/images/notfound.png');
+                  },
                   fit: BoxFit.cover,
                 ),
               )),

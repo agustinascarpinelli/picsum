@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:picsum/bloc/pics/pics_bloc.dart';
-import 'package:picsum/models/pic_list_model.dart';
 import 'package:picsum/widgets/widgets.dart';
 
 import '../bloc/app/app_bloc.dart';
@@ -59,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void loadMorePics() {
     picsBloc.add(OnGetPhotos(pageNumber));
     pageNumber++;
+    
   }
 
   Future<void> onRefresh() async {
@@ -73,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final size = MediaQuery.of(context).size;
 
     return BlocBuilder<AppBloc, AppState>(builder: (context, appState) {
+          picsBloc = BlocProvider.of<PicsBloc>(context);
       return Scaffold(
         appBar: AppBar(
           title: const Text('PICSUM'),
@@ -92,7 +93,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state.error != null) {
                     return Center(
-                      child: Text(state.error!),
+                      child: RefreshIndicator(
+                        onRefresh: onRefresh,
+                        child: ContainerError(error: state.error!),
+                      ),
                     );
                   } else if (state.pics.isNotEmpty) {
                     return ListView.builder(
@@ -108,8 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           child: Hero(
                               tag: pic.id!,
-                              child: _picsContainer(
-                                  appState, context, index, pic)),
+                              child: PicsContainer(appState: appState, context: context, index: index, pic: pic,
+                                 )),
                         );
                       },
                     );
@@ -131,59 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Container _picsContainer(
-    AppState appState, BuildContext context, int index, ListPicResponse pic) {
-  const Color colorDark = Color(0xFF2A6F97);
-  const Color colorLight = Color(0xFFA9D6E5);
-  return Container(
-    margin: const EdgeInsets.all(10),
-    decoration: BoxDecoration(
-      border: Border.all(
-          color: appState.isThemeLight ? colorDark : colorLight, width: 2),
-      borderRadius: BorderRadius.circular(20),
-      color: appState.isThemeLight ? colorLight : colorDark,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.2),
-          offset: const Offset(0, 2),
-          blurRadius: 4,
-        ),
-      ],
-    ),
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(17),
-      child: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              child: FadeInImage(
-                fit: BoxFit.cover,
-                placeholder: const AssetImage('assets/images/loading.gif'),
-                image: pic.downloadUrl != null
-                    ? NetworkImage(pic.downloadUrl!)
-                    : const AssetImage('assets/images/notfound.png')
-                        as ImageProvider<Object>,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                pic.author ?? 'Undefined author',
-                style: TextStyle(
-                  color: appState.isThemeLight ? colorDark : colorLight,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
 
 class LoadingIcon extends StatelessWidget {
   const LoadingIcon({

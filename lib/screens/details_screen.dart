@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:picsum/models/pic_list_model.dart';
 import 'package:picsum/widgets/widgets.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 
 import '../bloc/app/app_bloc.dart';
 
@@ -92,8 +92,8 @@ class _Details extends StatelessWidget {
         ),
         RowDetail(
             title: 'Url: ',
-            subtitle: pic.url!,
-            icon: true,
+            subtitle: pic.url!=null ? pic.url! : 'Not found',
+            icon: pic.url != null ? true : false,
             url:pic.url!,
             color: isThemeLight ? colorDark : colorLight),
         const SizedBox(
@@ -103,7 +103,7 @@ class _Details extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 50),
             child: RowDetail(
                 title: 'Download url: ',
-                downloadPic: true,
+                downloadPic:pic.downloadUrl!=null ? true :false,
                 downloadPicUrl: pic.downloadUrl!,
                 subtitle: pic.downloadUrl!,
                 color: isThemeLight ? colorDark : colorLight))
