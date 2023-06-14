@@ -31,21 +31,23 @@ class LoginScreen extends StatelessWidget {
                             color: const Color(0xFF2A6F97), width: 10),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'PICS',
-                            style: TextStyle(
-                                color: Color(0xFF012A4A),
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Form(child: CustomForm()),
-                        ],
+                      child: const SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'PICS',
+                              style: TextStyle(
+                                  color: Color(0xFF012A4A),
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Form(child: CustomForm()),
+                          ],
+                        ),
                       ),
                     ),
                   ),

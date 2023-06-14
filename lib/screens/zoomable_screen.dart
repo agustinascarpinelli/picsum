@@ -20,7 +20,7 @@ class ZoomableScreen extends StatelessWidget {
           children: [
             Center(
               child: Hero(
-                tag: pic.id!,
+                tag: pic.downloadUrl!,
                 child: PhotoView(imageProvider: NetworkImage(pic.downloadUrl!)),
               ),
             )

@@ -10,7 +10,7 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
         leading: Hero(
-          tag: pic.id!,
+          tag: pic.id!*2,
           child: IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -34,7 +34,7 @@ class CustomAppBar extends StatelessWidget {
                 color: Colors.black12,
               ),
               background: Hero(
-                tag: pic.id!,
+                tag: pic.id!*14,
                 child: FadeInImage(
                   placeholder: const AssetImage('assets/images/loading.gif'),
                   image: pic.downloadUrl != null
